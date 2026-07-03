@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  bookingSlug  String   @unique
+  isAdmin      Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  availabilityRules AvailabilityRule[]
+  appointments      Appointment[]
+}
+
+model AvailabilityRule {
+  id                  String @id @default(cuid())
+  dayOfWeek           Int
+  startTime           String
+  endTime             String
+  slotDurationMinutes Int
+  ownerId             String
+  owner               User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@index([ownerId])
+}
+
+model Appointment {
+  id          String   @id @default(cuid())
+  startTime   DateTime
+  endTime     DateTime
+  bookerName  String
+  bookerEmail String
+  note        String?
+  status      String   @default("confirmed")
+  ownerId     String
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@index([ownerId])
+  @@index([startTime])
+}

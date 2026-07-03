@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build
+dist
+.next
+out
+.turbo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database
+apps/api/dev.db
+apps/api/dev.db-journal
+apps/api/prisma/dev.db
+apps/api/prisma/dev.db-journal
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+WORKSHOP-VULNS.md
